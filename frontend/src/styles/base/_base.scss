@@ -1,0 +1,30 @@
+@use '../abstracts/variables' as *;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-primary-dark);
+  transition: 0.2s ease;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+ul {
+  padding-left: 20px;
+}
+
+.accessible-mode {
+  filter: grayscale(100%) contrast(120%);
+}

@@ -1,0 +1,65 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use 'sass:color';
+
+.home {
+
+  &__hero {
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-light),
+      var(--color-primary-gradient)
+    );
+    padding: 60px 0;
+  }
+
+  &__hero-content {
+    @include container;
+  }
+
+  &__title {
+    font-size: 34px;
+    margin-bottom: $spacing-md;
+
+    @include respond(md) {
+      font-size: 24px;
+    }
+  }
+
+  &__description {
+    max-width: 600px;
+    color: var(--color-text-secondary);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-md;
+
+    @include respond(lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond(md) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: $spacing-md;
+    border-radius: 8px;
+    box-shadow: $shadow-soft;
+    transition: 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+  }
+
+  &__card-title {
+    font-weight: 600;
+    margin-bottom: $spacing-sm;
+  }
+}

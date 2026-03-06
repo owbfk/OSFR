@@ -1,0 +1,38 @@
+:root {
+  --color-primary: #74B6E8;
+  --color-primary-light: #B8E3E9;
+  --color-primary-dark: #4a9bd6;
+
+  --color-primary-gradient: #9fd0f0;
+
+  --color-background: #f4f8fb;
+  --color-surface: #ffffff;
+
+  --color-text-primary: #1f2d3d;
+  --color-text-secondary: #5f6c7b;
+
+  --color-border: #d9e4ec;
+}
+
+.accessible-mode {
+  --color-primary: #000000;
+  --color-primary-light: #ffffff;
+  --color-primary-dark: #000000;
+
+  --color-primary-gradient: #cccccc;
+
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+
+  --color-text-primary: #000000;
+  --color-text-secondary: #000000;
+
+  --color-border: #000000;
+}
+
+$spacing-xs: 8px;
+$spacing-sm: 16px;
+$spacing-md: 24px;
+$spacing-lg: 40px;
+
+$shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
