@@ -1,11 +1,24 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
 .page {
-  padding: 40px;
+  @include container;
+  padding-top: $spacing-lg;
+  padding-bottom: $spacing-lg;
+}
+
+.title {
+  margin: 0;
 }
 
 .grid {
-  margin-top: 30px;
-
+  margin-top: $spacing-md;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  gap: $spacing-md;
+}
+
+.status {
+  margin-top: $spacing-md;
+  color: var(--color-text-secondary);
 }

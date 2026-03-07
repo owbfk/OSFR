@@ -1,22 +1,32 @@
 import { useNews } from '../api/newsApi'
+import Footer from '../components/Footer'
+import Header from '../components/Header'
 import { NewsCard } from '../components/NewsCard'
 import styles from '../styles/pages/_news.module.scss'
 
 export const NewsPage = () => {
   const { data, isLoading, isError } = useNews()
 
-  if (isLoading) return <p>Загрузка...</p>
-  if (isError) return <p>Ошибка загрузки</p>
-
   return (
-    <div className={styles.page}>
-      <h1>Новости</h1>
+    <>
+      <Header />
 
-      <div className={styles.grid}>
-        {data?.map(news => (
-          <NewsCard key={news.id} news={news} />
-        ))}
-      </div>
-    </div>
+      <main className={styles.page}>
+        <h1 className={styles.title}>Новости</h1>
+
+        {isLoading && <p className={styles.status}>Загрузка новостей...</p>}
+        {isError && <p className={styles.status}>Не получилось загрузить новости</p>}
+
+        {!isLoading && !isError && (
+          <div className={styles.grid}>
+            {data?.map((news) => (
+              <NewsCard key={news.id} news={news} />
+            ))}
+          </div>
+        )}
+      </main>
+
+      <Footer />
+    </>
   )
 }

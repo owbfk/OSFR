@@ -1,30 +1,28 @@
-import '../styles/pages/_home.scss'
-import Header from '../components/Header'
+import { Link } from 'react-router-dom'
+import { NewsCard } from '../components/NewsCard'
 import Footer from '../components/Footer'
+import Header from '../components/Header'
 import { useNews } from '../hooks/useNews'
+import '../styles/pages/_home.scss'
 
 const HomePage = () => {
   const { data: news, isLoading, isError } = useNews()
+
   return (
     <>
       <Header />
 
       <main className="home">
-
-        {/* HERO */}
         <section className="home__hero">
           <div className="home__hero-content">
-            <h1 className="home__title">
-              Региональное отделение Социального фонда Российской Федерации
-            </h1>
+            <h1 className="home__title">Региональное отделение Социального фонда Российской Федерации</h1>
             <p className="home__description">
-              Официальный информационный ресурс для получения сведений
-              о социальных выплатах, услугах и порядке обращения граждан.
+              Официальный информационный ресурс для получения сведений о социальных выплатах,
+              услугах и порядке обращения граждан.
             </p>
           </div>
         </section>
 
-        {/* УСЛУГИ */}
         <section className="section">
           <div className="container">
             <h2>Популярные услуги</h2>
@@ -48,29 +46,39 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* НОВОСТИ */}
         <section className="section">
           <div className="container">
-            <h2>Новости</h2>
+            <div className="home__section-head">
+              <h2>Новости</h2>
+              <Link className="home__news-link" to="/news">
+                Все новости
+              </Link>
+            </div>
 
             {isLoading && <p>Загрузка данных...</p>}
-
             {isError && <p>Ошибка загрузки данных.</p>}
 
             {!isLoading && !isError && (
-              <div className="home__grid">
-                {news?.map(item => (
-                  <div key={item.id} className="home__card">
-                    <div className="home__card-title">{item.title}</div>
-                    <p>{item.description}</p>
-                    <small>{item.date}</small>
-                  </div>
-                ))}
+              <div className="home__news-layout">
+                <div className="home__news-grid">
+                  {news?.slice(0, 3).map((item) => (
+                    <NewsCard key={item.id} news={item} />
+                  ))}
+                </div>
+
+                <aside className="home__news-aside">
+                  <h3>Раздел новостей</h3>
+                  <p>
+                    Все публикации, изменения и объявления доступны на отдельной странице.
+                  </p>
+                  <Link className="home__news-link home__news-link--aside" to="/news">
+                    Перейти к новостям
+                  </Link>
+                </aside>
               </div>
             )}
           </div>
         </section>
-
       </main>
 
       <Footer />

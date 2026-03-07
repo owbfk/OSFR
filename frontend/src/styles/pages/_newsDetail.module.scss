@@ -1,0 +1,57 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.page {
+  @include container;
+  padding-top: $spacing-lg;
+  padding-bottom: $spacing-lg;
+}
+
+.article {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: $shadow-soft;
+  padding: $spacing-md;
+}
+
+.notice {
+  margin: 0 0 $spacing-sm;
+  padding: $spacing-sm;
+  border-radius: 8px;
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+  border: 1px dashed var(--color-border);
+}
+
+.title {
+  margin: 0 0 $spacing-sm;
+  line-height: 1.25;
+}
+
+.image {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  margin-bottom: $spacing-sm;
+  background: var(--color-background);
+}
+
+.date {
+  display: inline-block;
+  margin-bottom: $spacing-sm;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.content {
+  margin: 0;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.status {
+  color: var(--color-text-secondary);
+}

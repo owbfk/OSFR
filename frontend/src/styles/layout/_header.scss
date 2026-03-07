@@ -11,23 +11,55 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: $spacing-sm;
     padding: $spacing-sm 0;
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-primary);
+    min-width: 0;
+  }
+
+  &__logo-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    object-fit: cover;
+    background: var(--color-background);
+    flex-shrink: 0;
+  }
+
+  &__logo-text {
+    font-weight: 700;
+    white-space: nowrap;
   }
 
   &__nav {
     display: flex;
     gap: $spacing-md;
 
+    a {
+      color: var(--color-text-primary);
+      font-weight: 500;
+    }
+
     @include respond(md) {
       position: absolute;
       top: 70px;
-      right: 0;
+      right: $spacing-sm;
       background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
       flex-direction: column;
-      width: 220px;
+      width: 240px;
       padding: $spacing-md;
       box-shadow: $shadow-soft;
       display: none;
+      z-index: 20;
     }
 
     &.active {
@@ -41,17 +73,61 @@
     gap: $spacing-sm;
   }
 
+  &__socials {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    a {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--color-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-background);
+
+      img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+
+    @include respond(md) {
+      display: none;
+    }
+  }
+
+  &__login-btn,
   &__accessible-btn {
-    background: var(--color-primary);
-    color: white;
     border: none;
-    padding: 6px 10px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 12px;
+    padding: 7px 11px;
+    white-space: nowrap;
+  }
+
+  &__login-btn {
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+
+    @include respond(md) {
+      display: none;
+    }
+  }
+
+  &__accessible-btn {
+    background: var(--color-primary);
+    color: #fff;
 
     @include respond(md) {
       font-size: 10px;
+      padding: 6px 8px;
     }
   }
 
@@ -61,6 +137,7 @@
     background: none;
     border: none;
     cursor: pointer;
+    padding: 2px 4px;
 
     @include respond(md) {
       display: block;
