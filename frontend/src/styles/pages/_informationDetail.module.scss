@@ -1,0 +1,80 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.page {
+  @include container;
+  padding-top: 48px;
+  padding-bottom: 56px;
+}
+
+.article {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 28px;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 22px;
+  padding: 9px 14px;
+  margin: 0 14px 0 0;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-weight: 600;
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary-dark);
+  }
+}
+
+.notice {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+  border: 1px dashed var(--color-border);
+}
+
+.category {
+  display: inline-flex;
+  margin-bottom: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.title {
+  margin: 0 0 12px;
+  font-size: 32px;
+  line-height: 1.25;
+
+  @include respond(md) {
+    font-size: 26px;
+  }
+}
+
+.date {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.content {
+  margin: 0;
+  line-height: 1.8;
+  color: var(--color-text-primary);
+}
+
+.status {
+  color: var(--color-text-secondary);
+}

@@ -11,5 +11,39 @@
     padding: 0 $spacing-md;
     font-size: 14px;
     color: var(--color-text-secondary);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: $spacing-md;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  &__meta {
+    p {
+      margin: 0 0 8px;
+    }
+  }
+
+  &__contacts {
+    max-width: 520px;
+
+    p {
+      margin: 0 0 8px;
+    }
+  }
+
+  &__contacts-title {
+    color: var(--color-text-primary);
+    font-weight: 700;
+  }
+
+  &__phone {
+    color: var(--color-text-primary);
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 700;
   }
 }

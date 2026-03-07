@@ -8,6 +8,7 @@
 
   &__container {
     @include container;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -36,6 +37,14 @@
   &__logo-text {
     font-weight: 700;
     white-space: nowrap;
+
+    @include respond(lg) {
+      font-size: 14px;
+    }
+
+    @include respond(sm) {
+      display: none;
+    }
   }
 
   &__nav {
@@ -47,15 +56,15 @@
       font-weight: 500;
     }
 
-    @include respond(md) {
+    @include respond(lg) {
       position: absolute;
-      top: 70px;
-      right: $spacing-sm;
+      top: calc(100% + 6px);
+      right: 0;
       background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: 10px;
       flex-direction: column;
-      width: 240px;
+      width: min(280px, calc(100vw - 32px));
       padding: $spacing-md;
       box-shadow: $shadow-soft;
       display: none;
@@ -63,7 +72,9 @@
     }
 
     &.active {
-      display: flex;
+      @include respond(lg) {
+        display: flex;
+      }
     }
   }
 
@@ -71,6 +82,11 @@
     display: flex;
     align-items: center;
     gap: $spacing-sm;
+
+    @include respond(lg) {
+      gap: 8px;
+      margin-left: auto;
+    }
   }
 
   &__socials {
@@ -96,8 +112,57 @@
       }
     }
 
-    @include respond(md) {
+    @include respond(lg) {
       display: none;
+    }
+  }
+
+  &__mobile-login-btn {
+    display: none;
+
+    @include respond(lg) {
+      display: inline-flex;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 12px;
+      justify-content: center;
+      background: var(--color-background);
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__mobile-socials {
+    display: none;
+
+    @include respond(lg) {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+      padding-top: $spacing-sm;
+      border-top: 1px solid var(--color-border);
+    }
+
+    a {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--color-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-background);
+
+      img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
     }
   }
 
@@ -116,7 +181,7 @@
     color: var(--color-text-primary);
     border: 1px solid var(--color-border);
 
-    @include respond(md) {
+    @include respond(lg) {
       display: none;
     }
   }
@@ -125,7 +190,12 @@
     background: var(--color-primary);
     color: #fff;
 
-    @include respond(md) {
+    @include respond(lg) {
+      font-size: 11px;
+      padding: 6px 10px;
+    }
+
+    @include respond(sm) {
       font-size: 10px;
       padding: 6px 8px;
     }
@@ -133,14 +203,42 @@
 
   &__burger {
     display: none;
-    font-size: 20px;
-    background: none;
-    border: none;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
     cursor: pointer;
-    padding: 2px 4px;
+    padding: 0;
 
-    @include respond(md) {
-      display: block;
+    span {
+      width: 16px;
+      height: 2px;
+      background: var(--color-text-primary);
+      border-radius: 2px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    &.active {
+      span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+      }
+
+      span:nth-child(2) {
+        opacity: 0;
+      }
+
+      span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+    }
+
+    @include respond(lg) {
+      display: inline-flex;
     }
   }
 }
