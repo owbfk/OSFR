@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { NewsCard } from '../components/NewsCard'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
@@ -7,6 +7,10 @@ import { useInformation } from '../api/informationApi'
 import type { InformationCategory } from '../types/information'
 import { contactIntro, supportPhoneInfo } from '../data/contactsData'
 import '../styles/pages/_home.scss'
+import orderImg from '../assets/order-icon.svg'
+import openDataImg from '../assets/open-data-icon.svg'
+import antiCorruptionImg from '../assets/anti_corruption-icon.svg'
+import linksImg from '../assets/links-icon.svg'
 
 const INFO_CATEGORIES: InformationCategory[] = [
   'Гражданам',
@@ -71,10 +75,7 @@ const HomePage = () => {
 
                 <div className="home__contacts-actions">
                   <a href="tel:88001000001">Позвонить</a>
-                  <a href="mailto:info@45.sfr.gov.ru">Написать на email</a>
-                  <a href="https://social-insurance.sfr.gov.ru/reception_desk/" target="_blank" rel="noreferrer">
-                    Электронное обращение
-                  </a>
+                  
                 </div>
               </article>
 
@@ -157,6 +158,44 @@ const HomePage = () => {
                 </aside>
               </div>
             )}
+          </div>
+        </section>
+
+        <section className="section home__extras-section">
+          <div className="container">
+            <div className="home__section-head">
+              <h2>Дополнительные ссылки</h2>
+            </div>
+
+            <div className="home__extras-grid">
+              <a className="home__extras-card" href="https://sfr.gov.ru/order/" target="_blank" rel="noreferrer">
+                <span className="home__extras-image-placeholder" aria-hidden="true">
+                  <img className="home__extras-image-placeholder" src={orderImg} alt="Законодательство" />
+                </span>
+                <span>Законодательство</span>
+              </a>
+
+              <a className="home__extras-card" href="https://sfr.gov.ru/opendata/" target="_blank" rel="noreferrer">
+                <span className="home__extras-image-placeholder" aria-hidden="true">
+                  <img className="home__extras-image-placeholder" src={openDataImg} alt="Открытые данные" />
+                </span>
+                <span>Открытые данные</span>
+              </a>
+
+              <a className="home__extras-card" href="https://sfr.gov.ru/anti_corruption/" target="_blank" rel="noreferrer">
+                <span className="home__extras-image-placeholder" aria-hidden="true">
+                  <img className="home__extras-image-placeholder" src={antiCorruptionImg} alt="Противодействие коррупции" />
+                </span>
+                <span>Противодействие коррупции</span>
+              </a>
+
+              <a className="home__extras-card" href="https://sfr.gov.ru/links/" target="_blank" rel="noreferrer">
+                <span className="home__extras-image-placeholder" aria-hidden="true">
+                  <img className="home__extras-image-placeholder" src={linksImg} alt="Полезные ссылки" />
+                </span>
+                <span>Полезные ссылки</span>
+              </a>
+            </div>
           </div>
         </section>
       </main>

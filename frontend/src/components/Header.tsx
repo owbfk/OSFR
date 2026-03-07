@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/Logo_SFR.png'
 import maxLogo from '../assets/Max.png'
@@ -6,17 +6,56 @@ import rutubeLogo from '../assets/rutube.png'
 import vkLogo from '../assets/VK.png'
 import telegramLogo from '../assets/Telegram.png'
 import okLogo from '../assets/Odnoklassniki.png'
-import { useTheme } from '../context/ThemeContext'
+import eyeImg from '../assets/eye.png'
+import { useTheme } from '../context/useTheme'
 import '../styles/layout/_header.scss'
+
+const HIDE_SCROLL_OFFSET = 140
+const DIRECTION_THRESHOLD = 6
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const { toggleAccessible } = useTheme()
+  const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false)
+  const [isHeaderHidden, setIsHeaderHidden] = useState(false)
+  const lastScrollY = useRef(0)
+
+  const {
+    enabled,
+    scheme,
+    fontSize,
+    hideImages,
+    setEnabled,
+    setScheme,
+    setFontSize,
+    setHideImages,
+  } = useTheme()
 
   const closeMenu = () => setIsOpen(false)
 
+  useEffect(() => {
+    const onScroll = () => {
+      const currentY = window.scrollY
+      const delta = currentY - lastScrollY.current
+
+      if (currentY <= 20) {
+        setIsHeaderHidden(false)
+      } else if (delta < -DIRECTION_THRESHOLD) {
+        setIsHeaderHidden(false)
+      } else if (delta > DIRECTION_THRESHOLD && currentY > HIDE_SCROLL_OFFSET && !isAccessibilityOpen) {
+        setIsHeaderHidden(true)
+      }
+
+      lastScrollY.current = currentY
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [isAccessibilityOpen])
+
+  const headerClass = `header ${isHeaderHidden && !isAccessibilityOpen ? 'header--hidden' : ''}`
+
   return (
-    <header className="header">
+    <header className={headerClass}>
       <div className="header__container">
         <Link to="/" className="header__brand" onClick={closeMenu}>
           <img className="header__logo-image" src={logo} alt="Логотип Социального фонда РФ" />
@@ -24,9 +63,16 @@ const Header = () => {
         </Link>
 
         <nav id="header-mobile-menu" className={`header__nav ${isOpen ? 'active' : ''}`}>
-          <Link to="/information" onClick={closeMenu}>Информация</Link>
-          <Link to="/news" onClick={closeMenu}>Новости</Link>
-          <Link to="/contacts" onClick={closeMenu}>Контакты</Link>
+          <Link to="/information" onClick={closeMenu}>
+            Информация
+          </Link>
+          <Link to="/news" onClick={closeMenu}>
+            Новости
+          </Link>
+          <Link to="/contacts" onClick={closeMenu}>
+            Контакты
+          </Link>
+
           <button type="button" className="header__mobile-login-btn" onClick={closeMenu}>
             Войти
           </button>
@@ -73,8 +119,18 @@ const Header = () => {
             Войти
           </button>
 
-          <button type="button" className="header__accessible-btn" onClick={toggleAccessible}>
-            Версия для слабовидящих
+          <button
+            type="button"
+            className="header__accessible-btn"
+            onClick={() => {
+              setIsHeaderHidden(false)
+              setIsAccessibilityOpen((prev) => !prev)
+            }}
+            aria-expanded={isAccessibilityOpen}
+            aria-controls="accessibility-panel"
+          >
+            <img className="header__accessible-icon" src={eyeImg} alt="" aria-hidden="true" />
+            <span>Версия для слабовидящих</span>
           </button>
 
           <button
@@ -91,6 +147,109 @@ const Header = () => {
           </button>
         </div>
       </div>
+
+      {isAccessibilityOpen && (
+        <div id="accessibility-panel" className="header__accessibility-panel">
+          <div className="header__accessibility-inner">
+            <div className="header__accessibility-group">
+              <span className="header__accessibility-label">Режим</span>
+              <div className="header__accessibility-controls">
+                <button type="button" className={enabled ? 'active' : ''} onClick={() => setEnabled(!enabled)}>
+                  {enabled ? 'Выключить' : 'Включить'}
+                </button>
+              </div>
+            </div>
+
+            <div className="header__accessibility-group">
+              <span className="header__accessibility-label">Цветовая схема</span>
+              <div className="header__accessibility-controls">
+                <button
+                  type="button"
+                  className={scheme === 'default' ? 'active' : ''}
+                  onClick={() => {
+                    setEnabled(true)
+                    setScheme('default')
+                  }}
+                >
+                  Стандартная
+                </button>
+                <button
+                  type="button"
+                  className={scheme === 'black-white' ? 'active' : ''}
+                  onClick={() => {
+                    setEnabled(true)
+                    setScheme('black-white')
+                  }}
+                >
+                  Черный на белом
+                </button>
+                <button
+                  type="button"
+                  className={scheme === 'white-black' ? 'active' : ''}
+                  onClick={() => {
+                    setEnabled(true)
+                    setScheme('white-black')
+                  }}
+                >
+                  Белый на черном
+                </button>
+              </div>
+            </div>
+
+            <div className="header__accessibility-group">
+              <span className="header__accessibility-label">Шрифт</span>
+              <div className="header__accessibility-controls">
+                <button
+                  type="button"
+                  className={fontSize === 'normal' ? 'active' : ''}
+                  onClick={() => {
+                    setEnabled(true)
+                    setFontSize('normal')
+                  }}
+                >
+                  Стандартный
+                </button>
+                <button
+                  type="button"
+                  className={fontSize === 'large' ? 'active' : ''}
+                  onClick={() => {
+                    setEnabled(true)
+                    setFontSize('large')
+                  }}
+                >
+                  Увеличенный
+                </button>
+              </div>
+            </div>
+
+            <div className="header__accessibility-group">
+              <span className="header__accessibility-label">Изображения</span>
+              <div className="header__accessibility-controls">
+                <button
+                  type="button"
+                  className={!hideImages ? 'active' : ''}
+                  onClick={() => {
+                    setEnabled(true)
+                    setHideImages(false)
+                  }}
+                >
+                  Показать
+                </button>
+                <button
+                  type="button"
+                  className={hideImages ? 'active' : ''}
+                  onClick={() => {
+                    setEnabled(true)
+                    setHideImages(true)
+                  }}
+                >
+                  Отключить
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   )
 }

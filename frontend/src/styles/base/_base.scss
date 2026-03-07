@@ -25,6 +25,67 @@ ul {
   padding-left: 20px;
 }
 
-.accessible-mode {
-  filter: grayscale(100%) contrast(120%);
+body.accessible-enabled {
+  font-family: Arial, "Helvetica Neue", sans-serif;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+body.accessible-enabled[data-accessible-font-size='large'] {
+  font-size: 20px;
+}
+
+body.accessible-enabled[data-accessible-font-size='normal'] {
+  font-size: 17px;
+}
+
+body.accessible-enabled[data-accessible-scheme='black-white'] {
+  --color-primary: #000000;
+  --color-primary-light: #ffffff;
+  --color-primary-dark: #000000;
+  --color-primary-gradient: #ffffff;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-text-primary: #000000;
+  --color-text-secondary: #000000;
+  --color-border: #000000;
+}
+
+body.accessible-enabled[data-accessible-scheme='white-black'] {
+  --color-primary: #ffffff;
+  --color-primary-light: #111111;
+  --color-primary-dark: #ffffff;
+  --color-primary-gradient: #000000;
+  --color-background: #000000;
+  --color-surface: #111111;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #ffffff;
+  --color-border: #ffffff;
+}
+
+body.accessible-enabled.accessible-hide-images img:not(.header__accessible-icon) {
+  display: none !important;
+}
+
+body.accessible-enabled[data-accessible-scheme='black-white'] img,
+body.accessible-enabled[data-accessible-scheme='white-black'] img {
+  filter: grayscale(100%) !important;
+}
+
+body.accessible-enabled[data-accessible-scheme='black-white'] :where(*),
+body.accessible-enabled[data-accessible-scheme='white-black'] :where(*) {
+  background-image: none !important;
+}
+
+body.accessible-enabled[data-accessible-scheme='black-white'] :where(button, [type='button'], [type='submit'], a),
+body.accessible-enabled[data-accessible-scheme='white-black'] :where(button, [type='button'], [type='submit'], a) {
+  background-image: none !important;
+}
+
+body.accessible-enabled[data-accessible-scheme='black-white'] :where(button, [type='button'], [type='submit'], .btn, [class*='btn'], [class*='button']),
+body.accessible-enabled[data-accessible-scheme='white-black'] :where(button, [type='button'], [type='submit'], .btn, [class*='btn'], [class*='button']) {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+  border-color: var(--color-border) !important;
+  box-shadow: none !important;
 }

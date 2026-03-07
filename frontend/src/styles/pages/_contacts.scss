@@ -108,14 +108,14 @@
       justify-content: center;
       border-radius: 10px;
       border: 1px solid var(--color-primary);
-      background: rgba(116, 182, 232, 0.14);
+      background: var(--color-surface);
       color: var(--color-primary-dark);
       font-weight: 700;
       padding: 9px 14px;
       line-height: 1.25;
 
       &:hover {
-        background: rgba(116, 182, 232, 0.24);
+        border-color: var(--color-primary-dark);
       }
     }
   }
@@ -164,7 +164,7 @@
     gap: 12px;
 
     &:hover {
-      background: rgba(116, 182, 232, 0.08);
+      background: var(--color-surface);
     }
   }
 
@@ -195,7 +195,7 @@
   &__item-extra {
     border-top: 1px solid var(--color-border);
     padding-top: 16px;
-    background: rgba(116, 182, 232, 0.05);
+    background: var(--color-surface);
   }
 
   &__item-extra--region {

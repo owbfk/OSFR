@@ -1,36 +1,41 @@
-import { createContext, useContext, useState, type ReactNode, useEffect } from "react"
-
-interface ThemeContextProps {
-  isAccessible: boolean
-  toggleAccessible: () => void
-}
-
-const ThemeContext = createContext<ThemeContextProps | undefined>(undefined)
+﻿import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { ThemeContext, type AccessibleFontSize, type AccessibleScheme } from './themeStore'
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [isAccessible, setIsAccessible] = useState(false)
-
-  const toggleAccessible = () => {
-    setIsAccessible(prev => !prev)
-  }
+  const [enabled, setEnabled] = useState(false)
+  const [scheme, setScheme] = useState<AccessibleScheme>('default')
+  const [fontSize, setFontSize] = useState<AccessibleFontSize>('normal')
+  const [hideImages, setHideImages] = useState(false)
 
   useEffect(() => {
-    if (isAccessible) {
-      document.body.classList.add("accessible-mode")
-    } else {
-      document.body.classList.remove("accessible-mode")
+    const body = document.body
+
+    body.classList.toggle('accessible-enabled', enabled)
+    body.classList.toggle('accessible-hide-images', enabled && hideImages)
+    body.dataset.accessibleScheme = enabled ? scheme : 'default'
+    body.dataset.accessibleFontSize = enabled ? fontSize : 'normal'
+
+    return () => {
+      body.classList.remove('accessible-enabled', 'accessible-hide-images')
+      delete body.dataset.accessibleScheme
+      delete body.dataset.accessibleFontSize
     }
-  }, [isAccessible])
+  }, [enabled, scheme, fontSize, hideImages])
 
-  return (
-    <ThemeContext.Provider value={{ isAccessible, toggleAccessible }}>
-      {children}
-    </ThemeContext.Provider>
+  const value = useMemo(
+    () => ({
+      enabled,
+      scheme,
+      fontSize,
+      hideImages,
+      setEnabled,
+      setScheme,
+      setFontSize,
+      setHideImages,
+    }),
+    [enabled, scheme, fontSize, hideImages],
   )
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
-export const useTheme = () => {
-  const context = useContext(ThemeContext)
-  if (!context) throw new Error("useTheme must be used within ThemeProvider")
-  return context
-}
