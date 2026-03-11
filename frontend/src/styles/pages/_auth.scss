@@ -1,0 +1,232 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.auth {
+  background: var(--color-background);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 420px);
+    gap: $spacing-lg;
+    align-items: start;
+
+    @include respond(lg) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__intro {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    padding: $spacing-lg;
+    box-shadow: $shadow-soft;
+
+    @include respond(md) {
+      padding: $spacing-md;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: var(--color-primary-light);
+      opacity: 0.35;
+      top: -60px;
+      right: -50px;
+      pointer-events: none;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      color: var(--color-text-primary);
+    }
+
+    p {
+      margin: 0 0 16px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+  }
+
+  &__pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    span {
+      background: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__features {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--color-text-secondary);
+    display: grid;
+    gap: 8px;
+  }
+
+  &__card,
+  &__request {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    padding: $spacing-lg;
+    box-shadow: $shadow-soft;
+    display: grid;
+    gap: 16px;
+
+    @include respond(md) {
+      padding: $spacing-md;
+    }
+  }
+
+  &__request-head {
+    display: grid;
+    gap: 8px;
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      color: var(--color-text-primary);
+    }
+
+    p {
+      margin: 0;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+  }
+
+  &__tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  &__tab {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    padding: 10px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+
+    &.active {
+      background: var(--color-primary);
+      color: var(--color-surface);
+      border-color: var(--color-primary);
+      box-shadow: 0 10px 18px rgba(90, 150, 200, 0.25);
+    }
+  }
+
+  &__form {
+    display: grid;
+    gap: 12px;
+  }
+
+  &__field {
+    display: grid;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+
+    input,
+    textarea,
+    select {
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: var(--color-background);
+      color: var(--color-text-primary);
+      font-size: 14px;
+
+      &:focus {
+        outline: 2px solid rgba(116, 182, 232, 0.4);
+        border-color: var(--color-primary);
+      }
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    select {
+      cursor: pointer;
+    }
+  }
+
+  &__actions {
+    display: grid;
+    gap: 10px;
+  }
+
+  &__submit {
+    border: none;
+    border-radius: 12px;
+    background: var(--color-primary);
+    color: var(--color-surface);
+    padding: 11px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 12px 20px rgba(90, 150, 200, 0.25);
+  }
+
+  &__ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  &__note {
+    margin: 0;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+  }
+
+  &__success {
+    display: grid;
+    gap: 12px;
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      color: var(--color-text-primary);
+    }
+
+    p {
+      margin: 0;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+  }
+}

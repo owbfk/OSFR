@@ -6,6 +6,7 @@ import { NewsDetailPage } from "./pages/NewsDetailPage"
 import ContactsPage from './pages/ContactsPage'
 import { InformationPage } from './pages/InformationPage'
 import { InformationDetailPage } from './pages/InformationDetailPage'
+import AuthPage from './pages/AuthPage'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/information" element={<InformationPage />} />
         <Route path="/information/:id" element={<InformationDetailPage />} />
         <Route path="/contacts" element={<ContactsPage />} />
+        <Route path="/auth" element={<AuthPage />} />
       </Routes>
     </ThemeProvider>
   )
