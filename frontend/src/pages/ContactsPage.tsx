@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import {
-  contactIntro,
-  leadershipMembers,
-  regionContacts,
-} from '../data/contactsData'
+import { contactIntro, leadershipMembers } from '../data/contactsData'
+import { useRegionContacts } from '../hooks/useRegionContacts'
+import type { RegionContact } from '../types/contacts'
 import '../styles/pages/_contacts.scss'
 
 const slugify = (s: string) =>
@@ -21,6 +19,8 @@ const ContactsPage = () => {
   const [openLeaderIndex, setOpenLeaderIndex] = useState<number | null>(null)
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [showAllRegions, setShowAllRegions] = useState<boolean>(false)
+
+  const { data: regionContacts = [], isLoading, isError } = useRegionContacts()
 
   const term = searchTerm.trim().toLowerCase()
 
@@ -38,7 +38,7 @@ const ContactsPage = () => {
       : regionContacts.slice(0, 2)
 
   // добавляем стабильный идентификатор для каждого видимого региона (если в данных нет id)
-  type RWithCid = (typeof regionContacts)[number] & { __cid: string }
+  type RWithCid = RegionContact & { __cid: string }
   const idCounts = new Map<string, number>()
   const visibleWithId: RWithCid[] = visibleRegions.map((r) => {
     const base = r.id ? String(r.id) : slugify(r.name)
@@ -128,7 +128,7 @@ const ContactsPage = () => {
                 style={{ flex: 1, padding: '8px 10px', borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-surface)' }}
               />
 
-              {term === '' && regionContacts.length > 2 && (
+              {!isLoading && !isError && term === '' && regionContacts.length > 2 && (
                 <button
                   type="button"
                   onClick={() => setShowAllRegions((s) => !s)}
@@ -140,9 +140,11 @@ const ContactsPage = () => {
             </div>
 
             <div className="contacts__list contacts__list--regions">
-              {visibleWithId.length === 0 && <p>Регион не найден.</p>}
+              {isLoading && <p>Загрузка списка регионов...</p>}
+              {isError && <p>Не удалось загрузить список регионов. Попробуйте позже.</p>}
+              {!isLoading && !isError && visibleWithId.length === 0 && <p>Регион не найден.</p>}
 
-              {visibleWithId.map((region) => {
+              {!isLoading && !isError && visibleWithId.map((region) => {
                 const isOpen = openRegionId === region.__cid
 
                 return (
@@ -195,7 +197,13 @@ const ContactsPage = () => {
                       <p>{person.role}</p>
                     </div>
 
-                    {isOpen && <div className="contacts__item-extra" />}
+                    {isOpen && (
+                      <div className="contacts__item-extra">
+                        <p>
+                          {person.details?.trim() ? person.details : 'Дополнительная информация отсутствует.'}
+                        </p>
+                      </div>
+                    )}
                   </article>
                 )
               })}
