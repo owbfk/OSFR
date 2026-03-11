@@ -3,8 +3,10 @@
 
 .home {
   &__hero {
-    background: radial-gradient(circle at 0% 0%, var(--color-primary-light), var(--color-primary-gradient));
     padding: 64px 0;
+    background-image: linear-gradient(var(--color-primary-light), rgba(255, 255, 255, 0.3)), url('../../assets/back.jpg'); /* */
+    background-size: cover; 
+    background-repeat: no-repeat; 
   }
 
   &__hero-content {
@@ -14,7 +16,7 @@
   &__title {
     font-size: 36px;
     margin-bottom: $spacing-md;
-
+    color: var(--color-text-primary);
     @include respond(md) {
       font-size: 26px;
     }
@@ -22,7 +24,7 @@
 
   &__description {
     max-width: 680px;
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     line-height: 1.6;
   }
 

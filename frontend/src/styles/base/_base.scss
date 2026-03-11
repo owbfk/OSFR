@@ -67,6 +67,10 @@ body.accessible-enabled.accessible-hide-images img:not(.header__accessible-icon)
   display: none !important;
 }
 
+body.accessible-enabled.accessible-hide-images .home__hero{
+  background-image: none !important;
+}
+
 body.accessible-enabled[data-accessible-scheme='black-white'] img,
 body.accessible-enabled[data-accessible-scheme='white-black'] img {
   filter: grayscale(100%) !important;

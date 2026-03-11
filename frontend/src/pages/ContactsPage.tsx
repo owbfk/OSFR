@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import {
@@ -8,9 +8,52 @@ import {
 } from '../data/contactsData'
 import '../styles/pages/_contacts.scss'
 
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9\-а-яёйюъьі]+/gi, '')
+    .replace(/\-+/g, '-')
+
 const ContactsPage = () => {
-  const [openRegionIndex, setOpenRegionIndex] = useState<number | null>(null)
+  const [openRegionId, setOpenRegionId] = useState<string | null>(null)
   const [openLeaderIndex, setOpenLeaderIndex] = useState<number | null>(null)
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const [showAllRegions, setShowAllRegions] = useState<boolean>(false)
+
+  const term = searchTerm.trim().toLowerCase()
+
+  // фильтруем регионы по поиску
+  const filteredRegions = term
+    ? regionContacts.filter((r) => r.name.toLowerCase().includes(term))
+    : regionContacts
+
+  // видимые элементы: при поиске показываем все совпадения, иначе — часть или все
+  const visibleRegions =
+    term !== ''
+      ? filteredRegions
+      : showAllRegions
+      ? regionContacts
+      : regionContacts.slice(0, 2)
+
+  // добавляем стабильный идентификатор для каждого видимого региона (если в данных нет id)
+  type RWithCid = (typeof regionContacts)[number] & { __cid: string }
+  const idCounts = new Map<string, number>()
+  const visibleWithId: RWithCid[] = visibleRegions.map((r) => {
+    const base = r.id ? String(r.id) : slugify(r.name)
+    const count = idCounts.get(base) ?? 0
+    idCounts.set(base, count + 1)
+    const cid = count === 0 ? base : `${base}-${count}`
+    return { ...r, __cid: cid }
+  })
+
+  // если открытый регион больше не виден — закрываем его
+  useEffect(() => {
+    if (openRegionId && !visibleWithId.some((r) => r.__cid === openRegionId)) {
+      setOpenRegionId(null)
+    }
+  }, [visibleWithId, openRegionId])
 
   return (
     <>
@@ -66,16 +109,48 @@ const ContactsPage = () => {
           <div className="container">
             <h2>Клиентские службы по регионам</h2>
 
+            {/* Поиск и переключатель видимости */}
+            <div className="contacts__list-controls" style={{ marginBottom: 12, display: 'flex', gap: 8, alignItems: 'center' }}>
+              <input
+                type="search"
+                value={searchTerm}
+                onChange={(e) => {
+                  const v = e.target.value
+                  setSearchTerm(v)
+                  // при вводе в поиск показываем только совпадения,
+                  // при очистке возвращаем свернутое состояние
+                  if (v.trim() === '') {
+                    setShowAllRegions(false)
+                  }
+                }}
+                placeholder="Поиск региона"
+                aria-label="Поиск региона"
+                style={{ flex: 1, padding: '8px 10px', borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-surface)' }}
+              />
+
+              {term === '' && regionContacts.length > 2 && (
+                <button
+                  type="button"
+                  onClick={() => setShowAllRegions((s) => !s)}
+                  style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-surface)', cursor: 'pointer' }}
+                >
+                  {showAllRegions ? 'Скрыть' : `Показать ещё ${regionContacts.length - 2}`}
+                </button>
+              )}
+            </div>
+
             <div className="contacts__list contacts__list--regions">
-              {regionContacts.map((region, index) => {
-                const isOpen = openRegionIndex === index
+              {visibleWithId.length === 0 && <p>Регион не найден.</p>}
+
+              {visibleWithId.map((region) => {
+                const isOpen = openRegionId === region.__cid
 
                 return (
-                  <article key={region.name} className={`contacts__item ${isOpen ? 'active' : ''}`}>
+                  <article key={region.__cid} className={`contacts__item ${isOpen ? 'active' : ''}`}>
                     <button
                       type="button"
                       className="contacts__item-toggle"
-                      onClick={() => setOpenRegionIndex(isOpen ? null : index)}
+                      onClick={() => setOpenRegionId(isOpen ? null : region.__cid)}
                       aria-expanded={isOpen}
                     >
                       <span>{region.name}</span>
