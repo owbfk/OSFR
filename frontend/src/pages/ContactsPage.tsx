@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { contactIntro, leadershipMembers } from '../data/contactsData'
+import { contactIntro } from '../data/contactsData'
 import { useRegionContacts } from '../hooks/useRegionContacts'
+import { useLeadershipMembers } from '../hooks/useLeadershipMembers'
 import type { RegionContact } from '../types/contacts'
 import '../styles/pages/_contacts.scss'
 
@@ -21,6 +22,11 @@ const ContactsPage = () => {
   const [showAllRegions, setShowAllRegions] = useState<boolean>(false)
 
   const { data: regionContacts = [], isLoading, isError } = useRegionContacts()
+  const {
+    data: leadershipMembers = [],
+    isLoading: isLeadersLoading,
+    isError: isLeadersError,
+  } = useLeadershipMembers()
 
   const term = searchTerm.trim().toLowerCase()
 
@@ -54,6 +60,12 @@ const ContactsPage = () => {
       setOpenRegionId(null)
     }
   }, [visibleWithId, openRegionId])
+
+  useEffect(() => {
+    if (openLeaderIndex !== null && openLeaderIndex >= leadershipMembers.length) {
+      setOpenLeaderIndex(null)
+    }
+  }, [leadershipMembers, openLeaderIndex])
 
   return (
     <>
@@ -110,7 +122,7 @@ const ContactsPage = () => {
             <h2>Клиентские службы по регионам</h2>
 
             {/* Поиск и переключатель видимости */}
-            <div className="contacts__list-controls" style={{ marginBottom: 12, display: 'flex', gap: 8, alignItems: 'center' }}>
+            <div className="contacts__list-controls">
               <input
                 type="search"
                 value={searchTerm}
@@ -125,14 +137,14 @@ const ContactsPage = () => {
                 }}
                 placeholder="Поиск региона"
                 aria-label="Поиск региона"
-                style={{ flex: 1, padding: '8px 10px', borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-surface)' }}
+                className="contacts__search-input"
               />
 
               {!isLoading && !isError && term === '' && regionContacts.length > 2 && (
                 <button
                   type="button"
                   onClick={() => setShowAllRegions((s) => !s)}
-                  style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-surface)', cursor: 'pointer' }}
+                  className="contacts__toggle-btn"
                 >
                   {showAllRegions ? 'Скрыть' : `Показать ещё ${regionContacts.length - 2}`}
                 </button>
@@ -178,11 +190,18 @@ const ContactsPage = () => {
             <h2>Руководство</h2>
 
             <div className="contacts__list contacts__list--leaders">
-              {leadershipMembers.map((person, index) => {
+              {isLeadersLoading && <p>Загрузка списка руководства...</p>}
+              {isLeadersError && <p>Не удалось загрузить список руководства. Попробуйте позже.</p>}
+              {!isLeadersLoading && !isLeadersError && leadershipMembers.length === 0 && (
+                <p>Список руководства пока пуст.</p>
+              )}
+
+              {!isLeadersLoading && !isLeadersError && leadershipMembers.map((person, index) => {
                 const isOpen = openLeaderIndex === index
+                const key = person.id ?? person.name
 
                 return (
-                  <article key={person.name} className={`contacts__item ${isOpen ? 'active' : ''}`}>
+                  <article key={key} className={`contacts__item ${isOpen ? 'active' : ''}`}>
                     <button
                       type="button"
                       className="contacts__item-toggle"
@@ -200,6 +219,7 @@ const ContactsPage = () => {
                     {isOpen && (
                       <div className="contacts__item-extra">
                         <p>
+                          <strong>Дополнительная информация:</strong>{' '}
                           {person.details?.trim() ? person.details : 'Дополнительная информация отсутствует.'}
                         </p>
                       </div>

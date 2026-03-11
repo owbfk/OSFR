@@ -7,6 +7,7 @@ export type RegionContact = {
 }
 
 export type LeadershipMember = {
+  id?: string
   name: string
   role: string
   details: string
