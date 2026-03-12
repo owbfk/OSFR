@@ -4,29 +4,13 @@ import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { useNews } from '../hooks/useNews'
 import { useInformation } from '../api/informationApi'
-import type { InformationCategory } from '../types/information'
 import { contactIntro, supportPhoneInfo } from '../data/contactsData'
+import { CATEGORY_DESCRIPTIONS, INFO_CATEGORIES } from '../data/informationCategories'
 import '../styles/pages/_home.scss'
 import orderImg from '../assets/order-icon.svg'
 import openDataImg from '../assets/open-data-icon.svg'
 import antiCorruptionImg from '../assets/anti_corruption-icon.svg'
 import linksImg from '../assets/links-icon.svg'
-
-const INFO_CATEGORIES: InformationCategory[] = [
-  'Гражданам',
-  'Страхователям',
-  'Медицинским организациям',
-  'Центры общения для людей старшего поколения',
-  'Прочее',
-]
-
-const CATEGORY_DESCRIPTIONS: Record<InformationCategory, string> = {
-  'Гражданам': 'Базовые сервисы, обращения и разъяснения по выплатам.',
-  'Страхователям': 'Отчетность, взаимодействие и организационные материалы.',
-  'Медицинским организациям': 'Рабочая информация для медучреждений и партнеров.',
-  'Центры общения для людей старшего поколения': 'Активности, консультации и сервисы центров общения.',
-  'Прочее': 'Дополнительные справочные материалы и популярные вопросы.',
-}
 
 const HomePage = () => {
   const { data: news, isLoading, isError } = useNews()
@@ -111,16 +95,16 @@ const HomePage = () => {
             {!isInfoLoading && !isInfoError && (
               <div className="home__info-grid">
                 {groupedInfo.map((group) => (
-                  <article key={group.category} className="home__info-card">
-                    <div className="home__info-card-head">
+                  <Link key={group.category} className="home__info-item" to="/information">
+                    <div className="home__info-item-head">
                       <h3>{group.category}</h3>
-                      <span>{group.count}</span>
+                      <span className="home__info-item-count">{group.count}</span>
                     </div>
-                    <p>{CATEGORY_DESCRIPTIONS[group.category]}</p>
-                    <div className="home__info-preview">
+                    <p className="home__info-item-desc">{CATEGORY_DESCRIPTIONS[group.category]}</p>
+                    <div className="home__info-item-preview">
                       {group.previewTopics || 'Темы скоро будут опубликованы.'}
                     </div>
-                  </article>
+                  </Link>
                 ))}
               </div>
             )}

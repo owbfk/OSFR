@@ -157,69 +157,51 @@
 
   &__info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: $spacing-md;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px $spacing-md;
   }
 
-  &__info-card {
-    border: 1px solid var(--color-border);
-    border-radius: 14px;
-    background:
-      linear-gradient(165deg, rgba(116, 182, 232, 0.14), rgba(255, 255, 255, 0)),
-      var(--color-surface);
-    box-shadow: $shadow-soft;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-height: 170px;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+  &__info-item {
+    display: grid;
+    gap: 8px;
+    padding: 10px 0 10px 14px;
+    border-left: 3px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, color 0.2s ease;
 
     &:hover {
-      border-color: var(--color-primary);
-      transform: translateY(-3px);
-    }
-
-    p {
-      margin: 0;
-      color: var(--color-text-secondary);
-      line-height: 1.55;
+      border-left-color: var(--color-primary);
+      color: var(--color-primary-dark);
     }
   }
 
-  &__info-card-head {
+  &__info-item-head {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
 
     h3 {
       margin: 0;
       font-size: 18px;
       line-height: 1.35;
     }
-
-    span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 28px;
-      height: 28px;
-      padding: 0 8px;
-      border-radius: 999px;
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      color: var(--color-text-secondary);
-      font-size: 13px;
-      font-weight: 600;
-      flex-shrink: 0;
-    }
   }
 
-  &__info-preview {
-    margin-top: auto;
-    padding-top: 10px;
-    border-top: 1px solid var(--color-border);
+  &__info-item-count {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  &__info-item-desc {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  &__info-item-preview {
     color: var(--color-text-primary);
     font-size: 14px;
     line-height: 1.45;

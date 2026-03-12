@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useNewsById } from '../api/newsApi'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
@@ -28,6 +28,12 @@ export const NewsDetailPage = () => {
           <p className={styles.status}>Загрузка новости...</p>
         ) : (
           <article className={styles.article}>
+            <div className={styles.topBar}>
+              <Link to="/news" className={styles.backLink}>
+                Назад к новостям
+              </Link>
+            </div>
+
             {(isError || !data) && (
               <p className={styles.notice}>Материал не найден. Показаны данные-заглушки.</p>
             )}

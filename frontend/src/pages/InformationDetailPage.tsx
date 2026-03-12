@@ -17,18 +17,24 @@ export const InformationDetailPage = () => {
           <p className={styles.status}>Загрузка раздела...</p>
         ) : (
           <article className={styles.article}>
-            <Link to="/information" className={styles.backLink}>
-              Назад к информации
-            </Link>
+            <div className={styles.topBar}>
+              <Link to="/information" className={styles.backLink}>
+                Назад к информации
+              </Link>
+
+              <div className={styles.meta}>
+                <span className={styles.category}>{data?.category ?? 'Раздел информации'}</span>
+                <span className={styles.date}>{data?.updatedAt ?? 'Дата не указана'}</span>
+              </div>
+            </div>
 
             {(isError || !data) && (
               <p className={styles.notice}>Материал не найден. Показана временная заглушка.</p>
             )}
 
-            <span className={styles.category}>{data?.category ?? 'Раздел информации'}</span>
             <h1 className={styles.title}>{data?.title ?? 'Материал недоступен'}</h1>
-            <span className={styles.date}>{data?.updatedAt ?? 'Дата не указана'}</span>
-            <p className={styles.content}>{data?.content ?? 'Текст появится позже.'}</p>
+            <p className={styles.summary}>{data?.summary ?? 'Краткое описание появится позже.'}</p>
+            <div className={styles.content}>{data?.content ?? 'Текст появится позже.'}</div>
           </article>
         )}
       </main>
