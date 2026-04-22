@@ -1,9 +1,38 @@
-import axiosInstance from './axiosInstance'
 import type { LeadershipMember } from '../types/contacts'
+import {
+  createResource,
+  listResource,
+  patchResource,
+  removeResource,
+  updateResource,
+} from './jsonServerClient'
 
-const LEADERSHIP_MEMBERS_URL = 'https://69b15ee9adac80b427c4f0ff.mockapi.io/api/leadershipMembers'
+const LEADERSHIP_MEMBERS_URL = '/leadershipMembers'
 
 export const fetchLeadershipMembers = async (): Promise<LeadershipMember[]> => {
-  const response = await axiosInstance.get<LeadershipMember[]>(LEADERSHIP_MEMBERS_URL)
-  return response.data
+  return listResource<LeadershipMember>(LEADERSHIP_MEMBERS_URL)
+}
+
+export const createLeadershipMember = async (
+  payload: Omit<LeadershipMember, 'id'>,
+): Promise<LeadershipMember> => {
+  return createResource<Omit<LeadershipMember, 'id'>, LeadershipMember>(LEADERSHIP_MEMBERS_URL, payload)
+}
+
+export const updateLeadershipMember = async (
+  id: string | number,
+  payload: LeadershipMember,
+): Promise<LeadershipMember> => {
+  return updateResource<LeadershipMember, LeadershipMember>(LEADERSHIP_MEMBERS_URL, id, payload)
+}
+
+export const patchLeadershipMember = async (
+  id: string | number,
+  payload: Partial<LeadershipMember>,
+): Promise<LeadershipMember> => {
+  return patchResource<LeadershipMember, LeadershipMember>(LEADERSHIP_MEMBERS_URL, id, payload)
+}
+
+export const deleteLeadershipMember = async (id: string | number): Promise<void> => {
+  return removeResource(LEADERSHIP_MEMBERS_URL, id)
 }

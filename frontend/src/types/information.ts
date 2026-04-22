@@ -1,9 +1,4 @@
-﻿export type InformationCategory =
-  | 'Гражданам'
-  | 'Страхователям'
-  | 'Медицинским организациям'
-  | 'Центры общения для людей старшего поколения'
-  | 'Прочее'
+export type InformationCategory = string
 
 export interface InformationItem {
   id: number

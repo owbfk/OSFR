@@ -1,7 +1,18 @@
-import { supportPhoneInfo } from '../data/contactsData'
+import { useSupportPhoneInfo } from '../api/siteContentApi'
 import '../styles/layout/_footer.scss'
 
+const FOOTER_FALLBACK = {
+  title: 'Не нашли ответ на свой вопрос?',
+  subtitle: 'Свяжитесь с нами.',
+  phone: '8 (800) 100-00-01',
+  center: 'Региональный контакт-центр СФР',
+  requestText: 'Оставить электронное обращение',
+} as const
+
 const Footer = () => {
+  const { data } = useSupportPhoneInfo()
+  const supportPhoneInfo = data ?? FOOTER_FALLBACK
+
   return (
     <footer className="footer">
       <div className="footer__container">

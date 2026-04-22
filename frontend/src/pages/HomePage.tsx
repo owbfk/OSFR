@@ -1,11 +1,10 @@
-﻿import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { NewsCard } from '../components/NewsCard'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { useNews } from '../hooks/useNews'
 import { useInformation } from '../api/informationApi'
-import { contactIntro, supportPhoneInfo } from '../data/contactsData'
-import { CATEGORY_DESCRIPTIONS, INFO_CATEGORIES } from '../data/informationCategories'
+import { useContactIntro, useInformationMeta, useSupportPhoneInfo } from '../api/siteContentApi'
 import '../styles/pages/_home.scss'
 import orderImg from '../assets/order-icon.svg'
 import openDataImg from '../assets/open-data-icon.svg'
@@ -15,8 +14,17 @@ import linksImg from '../assets/links-icon.svg'
 const HomePage = () => {
   const { data: news, isLoading, isError } = useNews()
   const { data: information, isLoading: isInfoLoading, isError: isInfoError } = useInformation()
+  const { data: contactIntro } = useContactIntro()
+  const { data: supportPhoneInfo } = useSupportPhoneInfo()
+  const { data: informationMeta } = useInformationMeta()
 
-  const groupedInfo = INFO_CATEGORIES.map((category) => {
+  const categories = informationMeta?.categories?.length
+    ? informationMeta.categories
+    : Array.from(new Set((information ?? []).map((entry) => entry.category)))
+
+  const categoryDescriptions = informationMeta?.categoryDescriptions ?? {}
+
+  const groupedInfo = categories.map((category) => {
     const items = information?.filter((entry) => entry.category === category) ?? []
 
     return {
@@ -47,27 +55,26 @@ const HomePage = () => {
               <article className="home__contacts-main">
                 <header className="home__contacts-head">
                   <h2>Контакты отделения</h2>
-                  <p>{supportPhoneInfo.center}</p>
+                  <p>{supportPhoneInfo?.center ?? 'Региональный контакт-центр СФР'}</p>
                 </header>
 
-                <p className="home__contacts-phone">{supportPhoneInfo.phone}</p>
+                <p className="home__contacts-phone">{supportPhoneInfo?.phone ?? '8 (800) 100-00-01'}</p>
 
                 <div className="home__contacts-meta">
-                  <p><strong>Адрес:</strong> {contactIntro.addressValue}</p>
-                  <p><strong>График:</strong> {contactIntro.scheduleValue}</p>
+                  <p><strong>Адрес:</strong> {contactIntro?.addressValue ?? 'Адрес уточняется'}</p>
+                  <p><strong>График:</strong> {contactIntro?.scheduleValue ?? 'График уточняется'}</p>
                 </div>
 
                 <div className="home__contacts-actions">
                   <a href="tel:88001000001">Позвонить</a>
-                  
                 </div>
               </article>
 
               <aside className="home__contacts-side">
-                <h3>{supportPhoneInfo.title}</h3>
-                <p>{supportPhoneInfo.subtitle}</p>
-                <p>{contactIntro.hotlineTitle}</p>
-                <p>{contactIntro.hotlineValue}</p>
+                <h3>{supportPhoneInfo?.title ?? 'Не нашли ответ на свой вопрос?'}</h3>
+                <p>{supportPhoneInfo?.subtitle ?? 'Свяжитесь с нами.'}</p>
+                <p>{contactIntro?.hotlineTitle ?? 'Горячая линия'}</p>
+                <p>{contactIntro?.hotlineValue ?? '8 (800) 100-00-01'}</p>
 
                 <div className="home__contacts-side-links">
                   <a href="https://www.gosuslugi.ru/671331/1/form" target="_blank" rel="noreferrer">
@@ -100,7 +107,9 @@ const HomePage = () => {
                       <h3>{group.category}</h3>
                       <span className="home__info-item-count">{group.count}</span>
                     </div>
-                    <p className="home__info-item-desc">{CATEGORY_DESCRIPTIONS[group.category]}</p>
+                    <p className="home__info-item-desc">
+                      {categoryDescriptions[group.category] ?? 'Описание раздела скоро будет добавлено.'}
+                    </p>
                     <div className="home__info-item-preview">
                       {group.previewTopics || 'Темы скоро будут опубликованы.'}
                     </div>

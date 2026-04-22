@@ -3,17 +3,26 @@ import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { useInformation } from '../api/informationApi'
-import { INFO_CATEGORIES } from '../data/informationCategories'
+import { useInformationMeta } from '../api/siteContentApi'
 import styles from '../styles/pages/_information.module.scss'
 
 export const InformationPage = () => {
   const { data, isLoading, isError } = useInformation()
+  const { data: informationMeta } = useInformationMeta()
   const [query, setQuery] = useState('')
   const normalizedQuery = query.trim().toLowerCase()
   const hasQuery = normalizedQuery.length > 0
 
+  const categories = useMemo(() => {
+    if (informationMeta?.categories?.length) {
+      return informationMeta.categories
+    }
+
+    return Array.from(new Set((data ?? []).map((item) => item.category)))
+  }, [data, informationMeta])
+
   const grouped = useMemo(() => {
-    const prepared = INFO_CATEGORIES.map((category) => {
+    const prepared = categories.map((category) => {
       const items = data?.filter((item) => item.category === category) ?? []
 
       if (!hasQuery) {
@@ -33,7 +42,7 @@ export const InformationPage = () => {
     })
 
     return hasQuery ? prepared.filter((group) => group.items.length > 0) : prepared
-  }, [data, hasQuery, normalizedQuery])
+  }, [categories, data, hasQuery, normalizedQuery])
 
   const totalMatches = useMemo(
     () => grouped.reduce((sum, group) => sum + group.items.length, 0),

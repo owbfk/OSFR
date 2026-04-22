@@ -1,18 +1,37 @@
 import { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { contactIntro } from '../data/contactsData'
 import { useRegionContacts } from '../hooks/useRegionContacts'
 import { useLeadershipMembers } from '../hooks/useLeadershipMembers'
+import { useContactIntro } from '../api/siteContentApi'
 import type { RegionContact } from '../types/contacts'
 import '../styles/pages/_contacts.scss'
+
+const CONTACT_INTRO_FALLBACK = {
+  title: 'Контакты отделения',
+  hotlineTitle: 'Горячая линия',
+  hotlineValue: '8 (800) 100-00-01',
+  regionalTitle: 'Региональный контакт-центр для страхователей',
+  regionalPhone: '8 (3522) 49-16-16',
+  receptionTitle: 'Приемная руководителя',
+  receptionPhone: '8 (3522) 48-80-37',
+  emailTitle: 'Электронный адрес',
+  emailValue: 'info@45.sfr.gov.ru',
+  pressTitle: 'Для прессы',
+  addressTitle: 'Адрес',
+  addressValue: '640022, Курганская область, г. Курган, ул. Гоголя, 153',
+  scheduleTitle: 'График работы',
+  scheduleValue: 'Пн-Пт: 08:00-17:00, перерыв 12:00-13:00',
+  appointmentTitle: 'Оформить предварительную запись на прием в СФР',
+  appealsTitle: 'Обращения граждан принимаются:',
+} as const
 
 const slugify = (s: string) =>
   s
     .toLowerCase()
     .trim()
     .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9\-а-яёйюъьі]+/gi, '')
+    .replace(/[^a-z0-9\-а-яё]+/gi, '')
     .replace(/\-+/g, '-')
 
 const ContactsPage = () => {
@@ -28,14 +47,15 @@ const ContactsPage = () => {
     isError: isLeadersError,
   } = useLeadershipMembers()
 
+  const { data: contactIntroData } = useContactIntro()
+  const contactIntro = contactIntroData ?? CONTACT_INTRO_FALLBACK
+
   const term = searchTerm.trim().toLowerCase()
 
-  // фильтруем регионы по поиску
   const filteredRegions = term
     ? regionContacts.filter((r) => r.name.toLowerCase().includes(term))
     : regionContacts
 
-  // видимые элементы: при поиске показываем все совпадения, иначе — часть или все
   const visibleRegions =
     term !== ''
       ? filteredRegions
@@ -43,7 +63,6 @@ const ContactsPage = () => {
       ? regionContacts
       : regionContacts.slice(0, 2)
 
-  // добавляем стабильный идентификатор для каждого видимого региона (если в данных нет id)
   type RWithCid = RegionContact & { __cid: string }
   const idCounts = new Map<string, number>()
   const visibleWithId: RWithCid[] = visibleRegions.map((r) => {
@@ -54,7 +73,6 @@ const ContactsPage = () => {
     return { ...r, __cid: cid }
   })
 
-  // если открытый регион больше не виден — закрываем его
   useEffect(() => {
     if (openRegionId && !visibleWithId.some((r) => r.__cid === openRegionId)) {
       setOpenRegionId(null)
@@ -121,7 +139,6 @@ const ContactsPage = () => {
           <div className="container">
             <h2>Клиентские службы по регионам</h2>
 
-            {/* Поиск и переключатель видимости */}
             <div className="contacts__list-controls">
               <input
                 type="search"
@@ -129,8 +146,6 @@ const ContactsPage = () => {
                 onChange={(e) => {
                   const v = e.target.value
                   setSearchTerm(v)
-                  // при вводе в поиск показываем только совпадения,
-                  // при очистке возвращаем свернутое состояние
                   if (v.trim() === '') {
                     setShowAllRegions(false)
                   }
