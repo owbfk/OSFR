@@ -4,6 +4,11 @@ import {
   patchResource,
   updateResource,
 } from './jsonServerClient'
+import {
+  FALLBACK_CONTACT_INTRO,
+  FALLBACK_INFORMATION_META,
+  FALLBACK_SUPPORT_PHONE_INFO,
+} from './fallbackData'
 import type { ContactIntro, InformationMeta, SupportPhoneInfo } from '../types/siteContent'
 
 const CONTACT_INTRO_URL = '/contactIntro'
@@ -11,15 +16,27 @@ const SUPPORT_PHONE_INFO_URL = '/supportPhoneInfo'
 const INFORMATION_META_URL = '/informationMeta'
 
 export const fetchContactIntro = async (): Promise<ContactIntro> => {
-  return getResource<ContactIntro>(CONTACT_INTRO_URL)
+  try {
+    return await getResource<ContactIntro>(CONTACT_INTRO_URL)
+  } catch {
+    return FALLBACK_CONTACT_INTRO
+  }
 }
 
 export const fetchSupportPhoneInfo = async (): Promise<SupportPhoneInfo> => {
-  return getResource<SupportPhoneInfo>(SUPPORT_PHONE_INFO_URL)
+  try {
+    return await getResource<SupportPhoneInfo>(SUPPORT_PHONE_INFO_URL)
+  } catch {
+    return FALLBACK_SUPPORT_PHONE_INFO
+  }
 }
 
 export const fetchInformationMeta = async (): Promise<InformationMeta> => {
-  return getResource<InformationMeta>(INFORMATION_META_URL)
+  try {
+    return await getResource<InformationMeta>(INFORMATION_META_URL)
+  } catch {
+    return FALLBACK_INFORMATION_META
+  }
 }
 
 export const updateContactIntro = async (payload: ContactIntro): Promise<ContactIntro> => {
