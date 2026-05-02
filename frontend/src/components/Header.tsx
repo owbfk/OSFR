@@ -8,18 +8,38 @@ import telegramLogo from '../assets/Telegram.png'
 import okLogo from '../assets/Odnoklassniki.png'
 import eyeImg from '../assets/eye.png'
 import { useTheme } from '../context/useTheme'
+import {
+  AUTH_EVENT_NAME,
+  AUTH_TOKEN_KEY,
+  clearAuthSession,
+  getStoredToken,
+  isStoredTokenExpired,
+} from '../auth/session'
 import '../styles/layout/_header.scss'
 
 const HIDE_SCROLL_OFFSET = 140
 const DIRECTION_THRESHOLD = 6
-const AUTH_TOKEN_KEY = 'sfr_auth_token'
-const AUTH_EVENT_NAME = 'auth:changed'
+
+const readAuthState = (): boolean => {
+  const token = getStoredToken()
+
+  if (!token) {
+    return false
+  }
+
+  if (isStoredTokenExpired()) {
+    clearAuthSession()
+    return false
+  }
+
+  return true
+}
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false)
   const [isHeaderHidden, setIsHeaderHidden] = useState(false)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(readAuthState)
   const lastScrollY = useRef(0)
 
   const {
@@ -35,17 +55,21 @@ const Header = () => {
 
   const closeMenu = () => setIsOpen(false)
 
-  const getStoredToken = () => {
-    if (typeof window === 'undefined') return null
-    try {
-      return window.localStorage.getItem(AUTH_TOKEN_KEY)
-    } catch {
-      return null
-    }
-  }
-
   const syncAuthState = () => {
-    setIsAuthenticated(Boolean(getStoredToken()))
+    const token = getStoredToken()
+
+    if (!token) {
+      setIsAuthenticated(false)
+      return
+    }
+
+    if (isStoredTokenExpired()) {
+      clearAuthSession()
+      setIsAuthenticated(false)
+      return
+    }
+
+    setIsAuthenticated(true)
   }
 
   useEffect(() => {
@@ -69,8 +93,6 @@ const Header = () => {
   }, [isAccessibilityOpen])
 
   useEffect(() => {
-    syncAuthState()
-
     if (typeof window === 'undefined') return
 
     const handleAuthChange = () => syncAuthState()
