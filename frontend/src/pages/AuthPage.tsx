@@ -221,7 +221,7 @@ const AuthPage = () => {
     ? `Вы вошли как ${authUser.name}${authUser.email ? ` (${authUser.email})` : ''}.`
     : authUser?.email
       ? `Вы вошли как ${authUser.email}.`
-      : 'Токен хранится в localStorage — сессия будет восстановлена автоматически.'
+      : 'Вы вошли в систему.'
 
   return (
     <>
@@ -335,7 +335,7 @@ const AuthPage = () => {
                 </p>
                 <div className="auth__pill-row">
                   <span>Единый вход</span>
-                  <span>Уведомления по обращениям</span>
+                  <span>Отправка обращений</span>
                   <span>Сохранение заявок</span>
                 </div>
                 <ul className="auth__features">
@@ -438,7 +438,7 @@ const AuthPage = () => {
                   </form>
 
                   <p className="auth__note">
-                    После входа мы сохраняем токен в localStorage, чтобы запомнить сессию.
+                    После входа мы сохраняем данные, чтобы запомнить сессию.
                   </p>
                 </>
               )}

@@ -18,7 +18,6 @@ const Footer = () => {
       <div className="footer__container">
         <div className="footer__meta">
           <p>© {new Date().getFullYear()} Социальный фонд Российской Федерации</p>
-          <p>Демонстрационная версия клиентской части</p>
         </div>
 
         <div className="footer__contacts">

@@ -9,19 +9,15 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = getStoredToken()
-
     if (!token) {
       return config
     }
-
     if (isStoredTokenExpired()) {
       clearAuthSession()
       return config
     }
-
     config.headers = config.headers ?? {}
     config.headers.Authorization = `Bearer ${token}`
-
     return config
   },
   (error) => Promise.reject(error)
@@ -34,7 +30,6 @@ axiosInstance.interceptors.response.use(
     if (status === 401 || status === 403) {
       clearAuthSession()
     }
-
     return Promise.reject(error)
   }
 )
