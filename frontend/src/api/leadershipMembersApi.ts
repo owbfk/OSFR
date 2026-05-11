@@ -6,7 +6,6 @@ import {
   removeResource,
   updateResource,
 } from './jsonServerClient'
-import { FALLBACK_LEADERSHIP_MEMBERS } from './fallbackData'
 
 const LEADERSHIP_MEMBERS_URL = '/leadershipMembers'
 
@@ -14,6 +13,7 @@ export const fetchLeadershipMembers = async (): Promise<LeadershipMember[]> => {
   try {
     return await listResource<LeadershipMember>(LEADERSHIP_MEMBERS_URL)
   } catch {
+    const { FALLBACK_LEADERSHIP_MEMBERS } = await import('./fallbackData')
     return FALLBACK_LEADERSHIP_MEMBERS
   }
 }

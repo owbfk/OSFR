@@ -7,7 +7,6 @@ import {
   removeResource,
   updateResource,
 } from './jsonServerClient'
-import { FALLBACK_INFORMATION } from './fallbackData'
 import type { InformationItem } from '../types/information'
 
 const INFORMATION_URL = '/information'
@@ -16,6 +15,7 @@ export const fetchInformation = async (): Promise<InformationItem[]> => {
   try {
     return await listResource<InformationItem>(INFORMATION_URL)
   } catch {
+    const { FALLBACK_INFORMATION } = await import('./fallbackData')
     return FALLBACK_INFORMATION
   }
 }
@@ -28,6 +28,7 @@ export const fetchInformationById = async (id: string): Promise<InformationItem>
   try {
     return await getResourceById<InformationItem>(INFORMATION_URL, id)
   } catch {
+    const { FALLBACK_INFORMATION } = await import('./fallbackData')
     const item = FALLBACK_INFORMATION.find((entry) => entry.id === Number(id))
 
     if (!item) {

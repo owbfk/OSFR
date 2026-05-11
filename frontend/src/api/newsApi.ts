@@ -7,7 +7,6 @@ import {
   removeResource,
   updateResource,
 } from './jsonServerClient'
-import { FALLBACK_NEWS } from './fallbackData'
 import type { NewsItem } from '../types/news'
 
 const NEWS_URL = '/news'
@@ -16,6 +15,7 @@ export const fetchNews = async (): Promise<NewsItem[]> => {
   try {
     return await listResource<NewsItem>(NEWS_URL)
   } catch {
+    const { FALLBACK_NEWS } = await import('./fallbackData')
     return FALLBACK_NEWS
   }
 }
@@ -28,6 +28,7 @@ export const fetchNewsById = async (id: string): Promise<NewsItem> => {
   try {
     return await getResourceById<NewsItem>(NEWS_URL, id)
   } catch {
+    const { FALLBACK_NEWS } = await import('./fallbackData')
     const item = FALLBACK_NEWS.find((entry) => entry.id === Number(id))
 
     if (!item) {

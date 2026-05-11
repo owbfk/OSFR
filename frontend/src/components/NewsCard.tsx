@@ -7,9 +7,11 @@ const PLACEHOLDER_IMAGE =
 
 type Props = {
   news: NewsItem
+  loading?: 'lazy' | 'eager'
+  fetchPriority?: 'high' | 'low' | 'auto'
 }
 
-export const NewsCard = ({ news }: Props) => {
+export const NewsCard = ({ news, loading = 'lazy', fetchPriority = 'low' }: Props) => {
   const title = news.title?.trim() || 'Новость без заголовка'
   const description = news.description?.trim() || 'Описание временно недоступно.'
   const date = news.date?.trim() || 'Дата не указана'
@@ -17,7 +19,16 @@ export const NewsCard = ({ news }: Props) => {
 
   return (
     <Link to={`/news/${news.id}`} className={styles.card}>
-      <img className={styles.image} src={image} alt={title} />
+      <img
+        className={styles.image}
+        src={image}
+        alt={title}
+        loading={loading}
+        decoding="async"
+        fetchPriority={fetchPriority}
+        width={640}
+        height={360}
+      />
 
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>

@@ -40,7 +40,16 @@ export const NewsDetailPage = () => {
 
             <h1 className={styles.title}>{title}</h1>
 
-            <img className={styles.image} src={image} alt={title} />
+            <img
+              className={styles.image}
+              src={image}
+              alt={title}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              width={1200}
+              height={630}
+            />
 
             <span className={styles.date}>{date}</span>
 

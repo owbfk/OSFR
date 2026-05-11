@@ -16,12 +16,10 @@ const mapAppealError = (error: unknown): string => {
   if (!axios.isAxiosError(error)) {
     return 'Не удалось отправить обращение. Попробуйте позже.'
   }
-
   const responseData = error.response?.data
   if (typeof responseData === 'string' && responseData.trim()) {
     return APPEALS_ERROR_MESSAGES[responseData] ?? responseData
   }
-
   return 'Не удалось отправить обращение. Попробуйте позже.'
 }
 

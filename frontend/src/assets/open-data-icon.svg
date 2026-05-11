@@ -1,6 +1,9 @@
-<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="30" cy="30" r="30" fill="#18438C"/>
-<path d="M29.7006 23.8001C37.4878 23.8001 43.8006 21.6959 43.8006 19.1001C43.8006 16.5044 37.4878 14.4001 29.7006 14.4001C21.9134 14.4001 15.6006 16.5044 15.6006 19.1001C15.6006 21.6959 21.9134 23.8001 29.7006 23.8001Z" stroke="white" stroke-width="3.15" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M43.8006 30.0696C43.8006 32.7329 37.5339 34.7696 29.7006 34.7696C21.8673 34.7696 15.6006 32.7329 15.6006 30.0696" stroke="white" stroke-width="3.15" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M15.6006 19.1011V41.0344C15.6006 43.6977 21.8673 45.7344 29.7006 45.7344C37.5339 45.7344 43.8006 43.6977 43.8006 41.0344V19.1011" stroke="white" stroke-width="3.15" stroke-linecap="round" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36px" height="36px" viewBox="0 0 36 36" version="1.1">
+<g id="surface1">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(9.411765%,26.274511%,54.901963%);fill-opacity:1;" d="M 36 18 C 36 8.058594 27.941406 0 18 0 C 8.058594 0 0 8.058594 0 18 C 0 27.941406 8.058594 36 18 36 C 27.941406 36 36 27.941406 36 18 Z M 36 18 "/>
+<path style="fill:none;stroke-width:3.15;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;" d="M 29.700521 23.802083 C 37.486979 23.802083 43.802083 21.692708 43.802083 19.101562 C 43.802083 16.503906 37.486979 14.401042 29.700521 14.401042 C 21.914062 14.401042 15.598958 16.503906 15.598958 19.101562 C 15.598958 21.692708 21.914062 23.802083 29.700521 23.802083 Z M 29.700521 23.802083 " transform="matrix(0.6,0,0,0.6,0,0)"/>
+<path style="fill:none;stroke-width:3.15;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;" d="M 43.802083 30.071615 C 43.802083 32.734375 37.532552 34.772135 29.700521 34.772135 C 21.86849 34.772135 15.598958 32.734375 15.598958 30.071615 " transform="matrix(0.6,0,0,0.6,0,0)"/>
+<path style="fill:none;stroke-width:3.15;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:4;" d="M 15.598958 19.101562 L 15.598958 41.035156 C 15.598958 43.697917 21.86849 45.735677 29.700521 45.735677 C 37.532552 45.735677 43.802083 43.697917 43.802083 41.035156 L 43.802083 19.101562 " transform="matrix(0.6,0,0,0.6,0,0)"/>
+</g>
 </svg>

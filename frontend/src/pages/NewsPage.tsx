@@ -19,8 +19,13 @@ export const NewsPage = () => {
 
         {!isLoading && !isError && (
           <div className={styles.grid}>
-            {data?.map((news) => (
-              <NewsCard key={news.id} news={news} />
+            {data?.map((news, index) => (
+              <NewsCard
+                key={news.id}
+                news={news}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                fetchPriority={index === 0 ? 'high' : 'low'}
+              />
             ))}
           </div>
         )}

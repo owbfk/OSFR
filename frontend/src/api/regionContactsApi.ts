@@ -6,7 +6,6 @@ import {
   removeResource,
   updateResource,
 } from './jsonServerClient'
-import { FALLBACK_REGION_CONTACTS } from './fallbackData'
 
 const REGION_CONTACTS_URL = '/regionContacts'
 
@@ -14,6 +13,7 @@ export const fetchRegionContacts = async (): Promise<RegionContact[]> => {
   try {
     return await listResource<RegionContact>(REGION_CONTACTS_URL)
   } catch {
+    const { FALLBACK_REGION_CONTACTS } = await import('./fallbackData')
     return FALLBACK_REGION_CONTACTS
   }
 }
